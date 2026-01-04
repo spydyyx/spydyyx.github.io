@@ -150,11 +150,6 @@ footer{
   padding:40px 20px;text-align:center;
   background:#050505;border-top:1px solid #1f1f1f;color:#aaa;
 }
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(40px);}
-  to{opacity:1;transform:translateY(0);}
-}
 </style>
 </head>
 <body>
@@ -214,7 +209,7 @@ window.addEventListener("scroll",()=>{
   document.querySelector("header").classList.toggle("glow",window.scrollY>50);
 });
 
-/* ===== SCROLL ANIMATION ===== */
+/* ===== SCROLL-BASED ANIMATION ===== */
 const heroContent = document.querySelector(".hero-content");
 const cards = document.querySelectorAll(".card");
 const sectionTexts = document.querySelectorAll(".section h2, .section p");
@@ -261,56 +256,48 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* ===== MATRIX ANIMATION ===== */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
+/* ===== MATRIX SCROLL-DRIVEN ANIMATION ===== */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-function resize(){
-  canvas.width=innerWidth;
-  canvas.height=innerHeight;
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
 }
 resize();
-addEventListener("resize",resize);
+addEventListener("resize", resize);
 
-const chars="01";
-const fontSize=16;
-let columns;
-let drops;
+const chars = "01";
+const fontSize = 16;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
+let lastScroll = window.scrollY;
 
-function initMatrix(){
-  columns=Math.floor(canvas.width/fontSize);
-  drops=Array(columns).fill(1);
-}
-initMatrix();
+function drawMatrix(scrollDelta) {
+  ctx.fillStyle = "rgba(0,0,0,0.15)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-let speed=1;
+  ctx.fillStyle = "#00ffff";
+  ctx.font = fontSize + "px monospace";
 
-function drawMatrix(){
-  ctx.fillStyle="rgba(0,0,0,0.15)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+  for (let i = 0; i < drops.length; i++) {
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-  ctx.fillStyle="#00ffff";
-  ctx.font=fontSize+"px monospace";
-
-  for(let i=0;i<drops.length;i++){
-    const text=chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
-    drops[i]+=speed;
+    drops[i] += scrollDelta * 0.05; // slow and scroll-driven
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
   }
 }
 
-function animate(){
-  drawMatrix();
-  requestAnimationFrame(animate);
-}
-animate();
-
-/* ===== MATRIX SPEED SCROLL REACTION ===== */
-addEventListener("scroll",()=>{
-  speed=1+(scrollY/800);
+// move matrix only on scroll
+window.addEventListener("scroll", () => {
+  const scrollDelta = window.scrollY - lastScroll;
+  drawMatrix(scrollDelta);
+  lastScroll = window.scrollY;
 });
+
+// initial draw
+drawMatrix(0);
 </script>
 
 </body>
