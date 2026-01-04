@@ -198,14 +198,14 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* ===== CINEMATIC MATRIX ===== */
+/* ===== ULTRA-SLOW CINEMATIC MATRIX ===== */
 const canvasEl = document.getElementById("matrix");
 const ctx = canvasEl.getContext("2d");
 
 let width = canvasEl.width = innerWidth;
 let height = canvasEl.height = innerHeight;
 
-window.addEventListener("resize",()=>{
+window.addEventListener("resize", ()=>{
   width = canvasEl.width = innerWidth;
   height = canvasEl.height = innerHeight;
   columns = Math.floor(width / fontSize);
@@ -217,15 +217,15 @@ const chars = "01";
 let columns = Math.floor(width / fontSize);
 let drops = Array(columns).fill(0);
 
-let baseSpeed = 0.5;  // slower cinematic speed
+let baseSpeed = 0.12;  // ultra slow
 let scrollFactor = 0;
 
 window.addEventListener("scroll", ()=>{
-  scrollFactor = Math.min(window.scrollY / 1000, 1); // gentle scroll speed boost
+  scrollFactor = Math.min(window.scrollY / 3000, 0.2); // very gentle scroll
 });
 
 function drawMatrix(){
-  ctx.fillStyle = "rgba(0,0,0,0.05)"; // smooth fading trails
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
   ctx.fillRect(0,0,width,height);
 
   ctx.fillStyle = "#00ffff";
