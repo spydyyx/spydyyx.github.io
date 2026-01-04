@@ -198,46 +198,51 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* ===== MATRIX ANIMATION ===== */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+/* ===== CINEMATIC MATRIX ===== */
+const canvasEl = document.getElementById("matrix");
+const ctx = canvasEl.getContext("2d");
 
-function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+let width = canvasEl.width = innerWidth;
+let height = canvasEl.height = innerHeight;
 
-const chars = "01";
+window.addEventListener("resize",()=>{
+  width = canvasEl.width = innerWidth;
+  height = canvasEl.height = innerHeight;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(0);
+});
+
 const fontSize = 16;
-let columns = Math.floor(canvas.width / fontSize);
+const chars = "01";
+let columns = Math.floor(width / fontSize);
 let drops = Array(columns).fill(0);
 
+let baseSpeed = 0.5;  // slower cinematic speed
+let scrollFactor = 0;
+
+window.addEventListener("scroll", ()=>{
+  scrollFactor = Math.min(window.scrollY / 1000, 1); // gentle scroll speed boost
+});
+
 function drawMatrix(){
-  ctx.fillStyle = "rgba(0,0,0,0.05)"; // smooth trails
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "rgba(0,0,0,0.05)"; // smooth fading trails
+  ctx.fillRect(0,0,width,height);
 
   ctx.fillStyle = "#00ffff";
-  ctx.font = fontSize+"px monospace";
+  ctx.font = fontSize + "px monospace";
 
   for(let i=0;i<drops.length;i++){
     const text = chars[Math.floor(Math.random()*chars.length)];
     ctx.fillText(text, i*fontSize, drops[i]*fontSize);
 
-    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i]=0;
-    drops[i]++;
+    drops[i] += baseSpeed + scrollFactor;
+
+    if(drops[i]*fontSize > height && Math.random() > 0.975) drops[i]=0;
   }
 
   requestAnimationFrame(drawMatrix);
 }
 drawMatrix();
-
-/* ===== SCROLL-RESPONSIVE SPEED ===== */
-window.addEventListener("scroll",()=>{
-  const scrollFactor = Math.min(window.scrollY / 300, 3);
-  drops = drops.map(d => d + scrollFactor);
-});
 </script>
 
 </body>
