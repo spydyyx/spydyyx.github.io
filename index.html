@@ -21,6 +21,7 @@ html { scroll-behavior: smooth; }
 body {
   background: radial-gradient(circle at top, #0a0a0a, #000);
   color: #f2f2f2;
+  overflow-x: hidden;
 }
 
 /* ================= HEADER ================= */
@@ -29,9 +30,14 @@ header {
   top: 0;
   width: 100%;
   background: rgba(5,5,5,0.9);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid #1f1f1f;
   z-index: 999;
+  transition: box-shadow 0.3s;
+}
+
+header.glow {
+  box-shadow: 0 0 25px #00ffff55;
 }
 
 nav {
@@ -45,7 +51,6 @@ nav {
 
 nav h2 {
   color: #00ffff;
-  letter-spacing: 1px;
 }
 
 nav ul {
@@ -64,20 +69,52 @@ nav ul li a:hover {
   color: #00ffff;
 }
 
+/* MOBILE */
+.menu {
+  display: none;
+  font-size: 26px;
+  color: #00ffff;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #050505;
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 12px;
+    display: none;
+  }
+  nav ul.show { display: flex; }
+  .menu { display: block; }
+}
+
 /* ================= HERO ================= */
 .hero {
   min-height: 100vh;
   padding-top: 90px;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.95)),
+    linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
     url("images/hero.jpg") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 .hero-content {
+  position: relative;
+  z-index: 1;
   animation: fadeIn 1.4s ease;
 }
 
@@ -93,7 +130,6 @@ nav ul li a:hover {
 .hero h1 {
   font-size: 3.4rem;
   color: #00ffff;
-  text-shadow: 0 0 25px #00ffffaa;
 }
 
 .hero p {
@@ -114,9 +150,7 @@ nav ul li a:hover {
   transition: 0.3s;
 }
 
-.btn:hover {
-  transform: scale(1.1);
-}
+.btn:hover { transform: scale(1.1); }
 
 /* ================= SECTIONS ================= */
 .section {
@@ -140,7 +174,8 @@ nav ul li a:hover {
 
 .card {
   width: 270px;
-  background: #111;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 30px #00ffff25;
@@ -154,9 +189,8 @@ nav ul li a:hover {
   opacity: 1;
 }
 
-/* HOVER MAGIC */
 .card:hover {
-  transform: translateY(-10px) scale(1.03);
+  transform: translateY(-10px) scale(1.05);
   box-shadow: 0 0 45px #00ffff55;
 }
 
@@ -224,7 +258,8 @@ footer {
 <header>
   <nav>
     <h2>Jetin</h2>
-    <ul>
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <ul id="navLinks">
       <li><a href="#home">Home</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -233,14 +268,13 @@ footer {
 </header>
 
 <section class="hero" id="home">
+  <canvas id="particles"></canvas>
   <div class="hero-content">
     <img src="images/profile.jpg">
-    <h1>Jetin Raj</h1>
+    <h1 id="typing"></h1>
     <p>Pursuing Diploma in Artificial Intelligence</p>
     <p>Creating futuristic AI ideas & digital experiences</p>
-    <a class="btn" href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">
-      Instagram
-    </a>
+    <a class="btn" href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">Instagram</a>
   </div>
 </section>
 
@@ -262,11 +296,21 @@ footer {
   </div>
 </section>
 
-<footer>
-  © 2026 Jetin Raj
-</footer>
+<footer>© 2026 Jetin Raj</footer>
 
 <script>
+/* MENU */
+function toggleMenu() {
+  document.getElementById("navLinks").classList.toggle("show");
+}
+
+/* HEADER GLOW */
+window.addEventListener("scroll", () => {
+  document.querySelector("header")
+    .classList.toggle("glow", window.scrollY > 50);
+});
+
+/* SCROLL ANIMATIONS */
 const cards = document.querySelectorAll(".card");
 window.addEventListener("scroll", () => {
   const trigger = window.innerHeight * 0.85;
@@ -276,6 +320,46 @@ window.addEventListener("scroll", () => {
     }
   });
 });
+
+/* TYPING */
+const text = "Jetin Raj";
+let i = 0;
+const typing = document.getElementById("typing");
+(function type() {
+  if (i < text.length) {
+    typing.innerHTML += text.charAt(i++);
+    setTimeout(type, 120);
+  }
+})();
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = Array.from({length: 60}, () => ({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*2+1,
+  dx: Math.random()-0.5,
+  dy: Math.random()-0.5
+}));
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="#00ffff";
+    ctx.fill();
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width) p.dx*=-1;
+    if(p.y<0||p.y>canvas.height) p.dy*=-1;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
