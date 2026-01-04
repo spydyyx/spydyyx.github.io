@@ -35,7 +35,6 @@
 
     nav h2 {
       color: #00ffff;
-      font-weight: 600;
     }
 
     nav ul {
@@ -125,7 +124,6 @@
       border-radius: 18px;
       box-shadow: 0 0 40px rgba(0,255,255,0.15);
       line-height: 1.8;
-      font-size: 16px;
       transform: translateY(40px);
       opacity: 0;
       transition: all 0.8s ease;
@@ -171,7 +169,6 @@
     }
 
     .card h3 {
-      color: #ffffff;
       margin: 12px 0 6px;
     }
 
@@ -180,9 +177,29 @@
       color: #bfbfbf;
     }
 
-    .card:hover {
-      transform: scale(1.06);
-      box-shadow: 0 0 30px rgba(0,255,255,0.4);
+    /* ===== CONTACT ===== */
+    .contact-buttons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 40px;
+      border: 2px solid #00ffff;
+      color: #00ffff;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+    }
+
+    .contact-btn:hover {
+      background: #00ffff;
+      color: #000;
+      box-shadow: 0 0 30px rgba(0,255,255,0.6);
     }
   </style>
 </head>
@@ -196,6 +213,7 @@
       <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -210,46 +228,49 @@
   <!-- ABOUT -->
   <section class="section" id="about">
     <h2>About Me</h2>
-
     <div class="about-box">
-      I am <span>Jetin Raj</span>, currently pursuing a <span>Diploma in Artificial Intelligence</span>.
-      I am deeply interested in building intelligent systems, exploring machine learning concepts,
-      and creating futuristic digital experiences using AI.
-      <br><br>
-      My focus areas include <span>AI models</span>, <span>automation</span>, <span>creative AI tools</span>,
-      and using modern technology to solve real-world problems.
-      I constantly experiment, learn, and build projects that push my understanding forward.
+      I am <span>Jetin Raj</span>, currently pursuing a
+      <span>Diploma in Artificial Intelligence</span>.
+      I am passionate about building intelligent systems,
+      exploring AI models, and creating futuristic digital experiences.
     </div>
   </section>
 
   <!-- PROJECTS -->
   <section class="section" id="projects">
     <h2>AI Projects</h2>
-
     <div class="projects">
       <div class="card">
         <img src="images/project1.jpg">
         <h3>Neural Vision</h3>
         <p>AI-powered image & pattern recognition concept</p>
       </div>
-
       <div class="card">
         <img src="images/project2.jpg">
         <h3>AI Companion</h3>
         <p>Conversational assistant with contextual intelligence</p>
       </div>
-
       <div class="card">
         <img src="images/project3.jpg">
         <h3>SkyAI</h3>
-        <p>Autonomous drone navigation using AI models</p>
+        <p>Autonomous drone navigation using AI</p>
       </div>
-
       <div class="card">
         <img src="images/project4.jpg">
         <h3>CreativeMind</h3>
-        <p>AI system generating art & creative outputs</p>
+        <p>AI system generating creative outputs</p>
       </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <h2>Contact Me</h2>
+
+    <div class="contact-buttons">
+      <a href="https://github.com/@spydyyx" target="_blank" class="contact-btn">GitHub</a>
+      <a href="https://instagram.com/@jtinnx" target="_blank" class="contact-btn">Instagram</a>
+      <a href="mailto:spydyy.x@gmail.com" class="contact-btn">Email</a>
     </div>
   </section>
 
