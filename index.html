@@ -217,29 +217,17 @@ const sectionTexts = document.querySelectorAll(".section h2, .section p");
 function animateOnScroll(){
   const trigger = window.innerHeight * 0.9;
 
-  // Hero content
-  if(heroContent.getBoundingClientRect().top < trigger){
-    heroContent.classList.add("show");
-  } else {
-    heroContent.classList.remove("show");
-  }
+  if(heroContent.getBoundingClientRect().top < trigger) heroContent.classList.add("show");
+  if(heroContent.getBoundingClientRect().top >= trigger) heroContent.classList.remove("show");
 
-  // Section headings & paragraphs
   sectionTexts.forEach(el => {
-    if(el.getBoundingClientRect().top < trigger){
-      el.classList.add("show");
-    } else {
-      el.classList.remove("show");
-    }
+    if(el.getBoundingClientRect().top < trigger) el.classList.add("show");
+    else el.classList.remove("show");
   });
 
-  // Cards
   cards.forEach(c=>{
-    if(c.getBoundingClientRect().top < trigger){
-      c.classList.add("show");
-    } else {
-      c.classList.remove("show");
-    }
+    if(c.getBoundingClientRect().top < trigger) c.classList.add("show");
+    else c.classList.remove("show");
   });
 }
 window.addEventListener("scroll", animateOnScroll);
@@ -256,7 +244,7 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* ===== MATRIX AUTO ANIMATION ===== */
+/* ===== MATRIX AUTO ANIMATION (PROPER FALLING) ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -269,13 +257,14 @@ addEventListener("resize", resize);
 
 const chars = "01";
 const fontSize = 16;
-let columns = Math.floor(canvas.width / fontSize);
-let drops = Array(columns).fill(1);
-let speed = 0.3; // slow speed
-let brightness = 0.2; // low brightness
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(0); // start at 0
+const speed = 0.5; // slow
+const fadeAlpha = 0.08; // low brightness
 
 function drawMatrix(){
-  ctx.fillStyle = `rgba(0,0,0,${brightness})`;
+  // Fade the background slowly
+  ctx.fillStyle = `rgba(0,0,0,${fadeAlpha})`;
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   ctx.fillStyle="#00ffff";
@@ -285,16 +274,12 @@ function drawMatrix(){
     const text = chars[Math.floor(Math.random()*chars.length)];
     ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i] += speed;
+    if(drops[i]*fontSize > canvas.height) drops[i]=0; // reset to top
   }
+  requestAnimationFrame(drawMatrix);
 }
-
-function animate(){
-  drawMatrix();
-  requestAnimationFrame(animate);
-}
-animate();
+drawMatrix();
 </script>
 
 </body>
