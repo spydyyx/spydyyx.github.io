@@ -38,7 +38,12 @@ nav ul li a:hover{color:#00ffff;}
 .btn{display:inline-block;margin-top:30px;padding:14px 36px;border-radius:40px;background:#00ffff;color:#000;font-weight:600;text-decoration:none;box-shadow:0 0 30px #00ffffaa;transition:.3s;}
 .btn:hover{transform:scale(1.1);}
 
-/* ===== SECTIONS ===== */
+/* ===== ABOUT ===== */
+.about{padding:90px 20px;text-align:center;}
+.about h2{font-size:2.6rem;margin-bottom:30px;color:#00ffff;}
+.about p{max-width:800px;margin:0 auto;font-size:1.1rem;color:#ddd;line-height:1.8;}
+
+/* ===== PROJECTS ===== */
 .section{padding:90px 20px;text-align:center;}
 .section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
 .projects{display:flex;flex-wrap:wrap;justify-content:center;gap:35px;}
@@ -67,6 +72,7 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul id="navLinks">
       <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -81,6 +87,11 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
     <p>Creating futuristic AI ideas & digital experiences</p>
     <a class="btn" href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">Instagram</a>
   </div>
+</section>
+
+<section class="about" id="about">
+  <h2>About Me</h2>
+  <p>Hello! I am Jetin Raj, a passionate AI enthusiast and student pursuing a Diploma in Artificial Intelligence. I love creating futuristic AI projects, exploring new digital experiences, and pushing the boundaries of technology to bring ideas to life.</p>
 </section>
 
 <section class="section" id="projects">
@@ -119,61 +130,53 @@ const text="Jetin Raj"; let i=0;
 const typing=document.getElementById("typing");
 (function type(){if(i<text.length){typing.innerHTML+=text.charAt(i++);setTimeout(type,120);}})();
 
-/* ===== MATRIX MOVIE WITH PULSE ===== */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
+/* ===== MATRIX MOVIE CRISP NUMBERS + PULSE ===== */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+let width=canvas.width=innerWidth, height=canvas.height=innerHeight;
+window.addEventListener("resize",()=>{width=canvas.width=innerWidth;height=canvas.height=innerHeight;initCols();});
 
-let width = canvas.width = innerWidth;
-let height = canvas.height = innerHeight;
-window.addEventListener("resize",()=>{
-  width = canvas.width = innerWidth;
-  height = canvas.height = innerHeight;
-  initColumns();
-});
+const fontSize=18;
+const chars="01";
+let columns, drops=[], speeds=[], lengths=[], pulses=[];
 
-const fontSize = 18;
-const chars = "01";
-let columns, drops=[], speeds=[], lengths=[], pulseOffsets=[];
-
-function initColumns(){
-  columns = Math.floor(width / fontSize);
-  drops = Array(columns).fill(0);
-  speeds = Array(columns).fill(0).map(()=>Math.random()*0.2+0.05);
-  lengths = Array(columns).fill(0).map(()=>Math.floor(Math.random()*15)+10);
-  pulseOffsets = Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
+function initCols(){
+  columns=Math.floor(width/fontSize);
+  drops=Array(columns).fill(0);
+  speeds=Array(columns).fill(0).map(()=>Math.random()*0.25+0.05);
+  lengths=Array(columns).fill(0).map(()=>Math.floor(Math.random()*15)+10);
+  pulses=Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
 }
-initColumns();
+initCols();
 
 function drawMatrix(){
-  ctx.fillStyle = "rgba(0,0,0,0.06)";
+  ctx.fillStyle="rgba(0,0,0,0.08)";
   ctx.fillRect(0,0,width,height);
-  ctx.font = fontSize+"px monospace";
+  ctx.font=fontSize+"px Consolas,monospace";
 
   for(let i=0;i<columns;i++){
     for(let j=0;j<lengths[i];j++){
-      const y = (drops[i]-j)*fontSize;
+      const y=(drops[i]-j)*fontSize;
       if(y<0) continue;
-      // pulse effect for top character
       if(j===0){
-        const alpha = 0.8 + 0.2*Math.sin(pulseOffsets[i]); // pulse
-        pulseOffsets[i]+=0.05;
-        ctx.fillStyle = `rgba(0,255,255,${alpha})`;
+        const alpha=0.9+0.1*Math.sin(pulses[i]);
+        pulses[i]+=0.08;
+        ctx.fillStyle=`rgba(180,255,180,${alpha})`; // bright green-white pulse top
       } else {
-        const alpha = 0.5*(1 - j/lengths[i]);
-        ctx.fillStyle = `rgba(0,255,255,${alpha})`;
+        const alpha=0.6*(1-j/lengths[i]);
+        ctx.fillStyle=`rgba(0,255,70,${alpha})`; // bright green trail
       }
-      const char = chars[Math.floor(Math.random()*chars.length)];
+      const char=chars[Math.floor(Math.random()*chars.length)];
       ctx.fillText(char,i*fontSize,y);
     }
     drops[i]+=speeds[i];
     if(drops[i]*fontSize>height+lengths[i]*fontSize){
       drops[i]=0;
-      speeds[i]=Math.random()*0.2+0.05;
+      speeds[i]=Math.random()*0.25+0.05;
       lengths[i]=Math.floor(Math.random()*15)+10;
-      pulseOffsets[i]=Math.random()*Math.PI*2;
+      pulses[i]=Math.random()*Math.PI*2;
     }
   }
-
   requestAnimationFrame(drawMatrix);
 }
 drawMatrix();
