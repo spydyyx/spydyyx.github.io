@@ -19,9 +19,25 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: radial-gradient(circle at top, #0a0a0a, #000);
+  background: #000;
   color: #f2f2f2;
   overflow-x: hidden;
+}
+
+/* ================= BINARY BACKGROUND ================= */
+.binary {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  font-size: 14px;
+  color: rgba(0,255,255,0.08);
+  line-height: 22px;
+  letter-spacing: 2px;
+  white-space: pre;
+  font-family: monospace;
+  pointer-events: none;
+  transform: translateY(0);
+  transition: transform 0.1s linear;
 }
 
 /* ================= HEADER ================= */
@@ -51,6 +67,7 @@ nav {
 
 nav h2 {
   color: #00ffff;
+  letter-spacing: 3px;
 }
 
 nav ul {
@@ -245,7 +262,6 @@ footer {
   color: #aaa;
 }
 
-/* ================= ANIMATION ================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
@@ -255,9 +271,11 @@ footer {
 
 <body>
 
+<div class="binary" id="binary"></div>
+
 <header>
   <nav>
-    <h2>Jetin</h2>
+    <h2>JR</h2>
     <div class="menu" onclick="toggleMenu()">☰</div>
     <ul id="navLinks">
       <li><a href="#home">Home</a></li>
@@ -360,6 +378,18 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
+
+/* BINARY GENERATOR + SCROLL MOVE */
+const binary = document.getElementById("binary");
+let lines = "";
+for (let i = 0; i < 200; i++) {
+  lines += (Math.random() > 0.5 ? "0101010101010101" : "1010101010101010") + "\n";
+}
+binary.textContent = lines;
+
+window.addEventListener("scroll", () => {
+  binary.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+});
 </script>
 
 </body>
