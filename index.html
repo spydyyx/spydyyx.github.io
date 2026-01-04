@@ -42,9 +42,9 @@ nav ul li a:hover{color:#00ffff;}
 /* ===== HERO ===== */
 .hero{min-height:100vh;padding-top:90px;display:flex;justify-content:center;align-items:center;text-align:center;position:relative;}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.9));z-index:0;}
-.hero-content{position:relative;z-index:1;}
-.hero-content .hero img,.hero-content h1,.hero-content p{opacity:0;transform:translateY(60px);transition: all 1.2s ease-out;}
-.hero-content.show .hero img,.hero-content.show h1,.hero-content.show p{opacity:1;transform:translateY(0);}
+.hero-content{position:relative;z-index:1;transition: all 1s ease;}
+.hero-content.show *{opacity:1;transform:translateY(0);}
+.hero-content img,.hero-content h1,.hero-content p{opacity:0;transform:translateY(60px);transition:all 1s ease;}
 .hero img{width:150px;height:150px;border-radius:50%;border:3px solid #00ffff;box-shadow:0 0 35px #00ffffaa;margin-bottom:25px;}
 .hero h1{font-size:3.4rem;color:#00ffff;text-shadow:0 0 30px #00ffffaa;}
 .hero p{margin-top:10px;color:#ddd;}
@@ -53,10 +53,8 @@ nav ul li a:hover{color:#00ffff;}
 
 /* ===== SECTIONS ===== */
 .section{padding:90px 20px;text-align:center;}
-.section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
-.section p{color:#cfcfcf;}
-.section h2,.section p{opacity:0;transform:translateY(60px);transition: all 1.2s ease-out;}
-.section h2.show,.section p.show{opacity:1;transform:translateY(0);}
+.section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;opacity:0;transform:translateY(60px);transition:all 1s ease;}
+.section.show h2{opacity:1;transform:translateY(0);}
 .projects{display:flex;flex-wrap:wrap;justify-content:center;gap:35px;}
 .card{width:270px;background:rgba(255,255,255,.06);backdrop-filter:blur(14px);border-radius:20px;overflow:hidden;box-shadow:0 0 30px #00ffff25;transform:translateY(70px);opacity:0;transition:.6s ease;}
 .card.show{transform:translateY(0);opacity:1;}
@@ -125,16 +123,16 @@ window.addEventListener("scroll",()=>{
   document.querySelector("header").classList.toggle("glow",window.scrollY>50);
 });
 
-/* ===== SCROLL ANIMATION ===== */
+/* ===== SCROLL ANIMATIONS ===== */
 const heroContent = document.querySelector(".hero-content");
 const cards = document.querySelectorAll(".card");
-const sectionTexts = document.querySelectorAll(".section h2, .section p");
+const sections = document.querySelectorAll(".section");
 
 function animateOnScroll(){
-  const trigger = window.innerHeight * 0.9;
+  const trigger = window.innerHeight * 0.85;
   if(heroContent.getBoundingClientRect().top < trigger) heroContent.classList.add("show");
-  sectionTexts.forEach(el => { if(el.getBoundingClientRect().top < trigger) el.classList.add("show"); });
   cards.forEach(c=>{ if(c.getBoundingClientRect().top < trigger) c.classList.add("show"); });
+  sections.forEach(sec=>{ if(sec.getBoundingClientRect().top < trigger) sec.classList.add("show"); });
 }
 window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
@@ -151,35 +149,34 @@ const ctx = canvas.getContext("2d");
 
 function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
 resize();
-addEventListener("resize", resize);
+window.addEventListener("resize", resize);
 
 const fontSize = 20;
 let columns = Math.floor(canvas.width / fontSize);
 let drops = [];
 const chars = "01";
 
-// Create a full column trail array
 for(let i=0;i<columns;i++){
-  drops[i] = { y: Math.random()*canvas.height, speed: Math.random()*0.5+0.2 };
+  drops[i] = {y: Math.random()*canvas.height, speed: Math.random()*0.5+0.2};
 }
 
 function drawMatrix(){
-  // fade background
   ctx.fillStyle = "rgba(0,0,0,0.05)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-
   ctx.font = fontSize+"px monospace";
 
   for(let i=0;i<columns;i++){
     let drop = drops[i];
-    let trailLength = 20 + Math.floor(Math.random()*10);
+    let trailLength = 15 + Math.floor(Math.random()*15);
+
     for(let j=0;j<trailLength;j++){
       let y = drop.y - j*fontSize;
       if(y < 0) continue;
       let opacity = 1 - j/trailLength;
-      ctx.fillStyle = `rgba(0,255,255,${opacity*0.6})`;
+      ctx.fillStyle = `rgba(0,255,255,${opacity*0.5})`;
       ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, y);
     }
+
     drop.y += drop.speed*fontSize;
     if(drop.y > canvas.height + trailLength*fontSize) drop.y = 0;
   }
@@ -188,6 +185,5 @@ function drawMatrix(){
 }
 drawMatrix();
 </script>
-
 </body>
 </html>
