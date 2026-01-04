@@ -16,15 +16,62 @@
   font-family: 'Poppins', sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: radial-gradient(circle at top, #0a0a0a, #000);
   color: #f2f2f2;
-  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1f1f1f;
+  z-index: 999;
+}
+
+nav {
+  max-width: 1100px;
+  margin: auto;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h2 {
+  color: #00ffff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: #00ffff;
 }
 
 /* HERO */
 .hero {
   min-height: 100vh;
+  padding-top: 90px;
   background:
     linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.95)),
     url("images/hero.jpg") center/cover no-repeat;
@@ -50,7 +97,6 @@ body {
 .hero h1 {
   font-size: 3.4rem;
   color: #00ffff;
-  text-shadow: 0 0 25px #00ffffaa;
 }
 
 .hero p {
@@ -69,14 +115,14 @@ body {
   font-weight: 600;
   text-decoration: none;
   box-shadow: 0 0 30px #00ffffaa;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
 .hero .btn:hover {
   transform: scale(1.1);
 }
 
-/* SECTION */
+/* SECTIONS */
 .section {
   padding: 90px 20px;
   text-align: center;
@@ -86,7 +132,6 @@ body {
   font-size: 2.6rem;
   margin-bottom: 50px;
   color: #00ffff;
-  text-shadow: 0 0 15px #00ffff60;
 }
 
 /* PROJECTS */
@@ -105,7 +150,7 @@ body {
   box-shadow: 0 0 30px #00ffff25;
   transform: translateY(70px);
   opacity: 0;
-  transition: all 0.6s ease;
+  transition: 0.6s ease;
 }
 
 .card.show {
@@ -145,95 +190,71 @@ body {
   color: #00ffff;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 0 25px #00ffff55;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
 .contact a:hover {
   background: #00ffff;
   color: #000;
-  transform: scale(1.1);
 }
 
 /* FOOTER */
 footer {
-  padding: 30px;
+  padding: 40px 20px;
   text-align: center;
-  color: #777;
-  font-size: 0.9rem;
+  background: #050505;
+  border-top: 1px solid #1f1f1f;
+  color: #aaa;
 }
 
-/* ANIMATIONS */
+/* ANIMATION */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
-<section class="hero">
+<header>
+  <nav>
+    <h2>Jetin</h2>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" id="home">
   <div class="hero-content">
-    <img src="images/profile.jpg" alt="Jetin Raj">
+    <img src="images/profile.jpg">
     <h1>Jetin Raj</h1>
     <p>Pursuing Diploma in Artificial Intelligence</p>
     <p>Creating futuristic AI ideas & digital experiences</p>
-
     <a class="btn" href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">
       Instagram
     </a>
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section class="section">
+<section class="section" id="projects">
   <h2>AI Projects</h2>
-
   <div class="projects">
-    <div class="card">
-      <img src="images/project1.jpg">
-      <h3>Neural Vision</h3>
-      <p>AI-powered visual pattern recognition system</p>
-    </div>
-
-    <div class="card">
-      <img src="images/project2.jpg">
-      <h3>AI Companion</h3>
-      <p>Smart virtual assistant concept</p>
-    </div>
-
-    <div class="card">
-      <img src="images/project3.jpg">
-      <h3>SkyAI</h3>
-      <p>Autonomous drone navigation using AI</p>
-    </div>
-
-    <div class="card">
-      <img src="images/project4.jpg">
-      <h3>CreativeMind</h3>
-      <p>AI-driven generative creativity engine</p>
-    </div>
+    <div class="card"><img src="images/project1.jpg"><h3>Neural Vision</h3><p>AI-powered visual recognition</p></div>
+    <div class="card"><img src="images/project2.jpg"><h3>AI Companion</h3><p>Smart assistant concept</p></div>
+    <div class="card"><img src="images/project3.jpg"><h3>SkyAI</h3><p>Autonomous drone navigation</p></div>
+    <div class="card"><img src="images/project4.jpg"><h3>CreativeMind</h3><p>Generative AI creativity</p></div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="section">
+<section class="section" id="contact">
   <h2>Contact</h2>
   <div class="contact">
-    <a href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">
-      Instagram
-    </a>
-    <a href="mailto:spydyy.x@gmail.com">
-      Gmail
-    </a>
+    <a href="https://www.instagram.com/jtinnx/?utm_source=ig_web_button_share_sheet" target="_blank">Instagram</a>
+    <a href="mailto:spydyy.x@gmail.com">Gmail</a>
   </div>
 </section>
 
@@ -243,7 +264,6 @@ footer {
 
 <script>
 const cards = document.querySelectorAll(".card");
-
 window.addEventListener("scroll", () => {
   const trigger = window.innerHeight * 0.85;
   cards.forEach(card => {
