@@ -1,273 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jetin Raj | AI Portfolio</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 html{scroll-behavior:smooth;}
+body{background:#000;color:#f2f2f2;overflow-x:hidden;}
 
-body{
-  background:#000;
-  color:#f2f2f2;
-  overflow-x:hidden;
-}
-
-/* ================= BINARY BACKGROUND ================= */
-.binary{
+/* ===== MATRIX CANVAS ===== */
+#matrix{
   position:fixed;
   inset:0;
-  z-index:-2;
-  font-family:monospace;
-  font-size:15px;
-  line-height:24px;
-  letter-spacing:2px;
-  color:rgba(0,255,255,0.18);
-  white-space:pre;
-  pointer-events:none;
-  animation:flicker 6s infinite alternate;
+  z-index:-3;
 }
 
-@keyframes flicker{
-  from{opacity:.15}
-  to{opacity:.35}
-}
-
-/* ================= HEADER ================= */
+/* ===== HEADER ===== */
 header{
   position:fixed;
-  top:0;
-  width:100%;
+  top:0;width:100%;
   background:rgba(5,5,5,.9);
   backdrop-filter:blur(12px);
   border-bottom:1px solid #1f1f1f;
   z-index:999;
   transition:.3s;
 }
-
-header.glow{
-  box-shadow:0 0 25px #00ffff55;
-}
+header.glow{box-shadow:0 0 25px #00ffff55;}
 
 nav{
-  max-width:1100px;
-  margin:auto;
+  max-width:1100px;margin:auto;
   padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
 }
-
-nav h2{
-  color:#00ffff;
-  letter-spacing:4px;
-}
-
-nav ul{
-  list-style:none;
-  display:flex;
-  gap:25px;
-}
-
-nav ul li a{
-  color:#ccc;
-  text-decoration:none;
-  transition:.3s;
-}
-
+nav h2{color:#00ffff;letter-spacing:4px;}
+nav ul{list-style:none;display:flex;gap:25px;}
+nav ul li a{color:#ccc;text-decoration:none;transition:.3s;}
 nav ul li a:hover{color:#00ffff;}
 
-.menu{
-  display:none;
-  font-size:26px;
-  color:#00ffff;
-  cursor:pointer;
-}
-
+.menu{display:none;font-size:26px;color:#00ffff;cursor:pointer;}
 @media(max-width:768px){
   nav ul{
-    position:absolute;
-    top:60px;
-    right:20px;
-    background:#050505;
-    flex-direction:column;
-    padding:15px;
-    border-radius:12px;
-    display:none;
+    position:absolute;top:60px;right:20px;
+    background:#050505;flex-direction:column;
+    padding:15px;border-radius:12px;display:none;
   }
   nav ul.show{display:flex;}
   .menu{display:block;}
 }
 
-/* ================= HERO ================= */
+/* ===== HERO ===== */
 .hero{
-  min-height:100vh;
-  padding-top:90px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  position:relative;
-  background:radial-gradient(circle at top, rgba(0,255,255,.08), transparent 60%);
+  min-height:100vh;padding-top:90px;
+  display:flex;justify-content:center;align-items:center;
+  text-align:center;position:relative;
 }
-
 .hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.9));
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.9));
   z-index:0;
 }
-
-canvas{
-  position:absolute;
-  inset:0;
-  z-index:0;
-}
-
-.hero-content{
-  position:relative;
-  z-index:1;
-  animation:fadeIn 1.4s ease;
-}
+.hero-content{position:relative;z-index:1;animation:fadeIn 1.4s ease;}
 
 .hero img{
-  width:150px;
-  height:150px;
-  border-radius:50%;
+  width:150px;height:150px;border-radius:50%;
   border:3px solid #00ffff;
   box-shadow:0 0 35px #00ffffaa;
   margin-bottom:25px;
 }
-
-.hero h1{
-  font-size:3.4rem;
-  color:#00ffff;
-  text-shadow:0 0 30px #00ffffaa;
-}
-
-.hero p{
-  margin-top:10px;
-  color:#ddd;
-}
+.hero h1{font-size:3.4rem;color:#00ffff;text-shadow:0 0 30px #00ffffaa;}
+.hero p{margin-top:10px;color:#ddd;}
 
 .btn{
-  display:inline-block;
-  margin-top:30px;
-  padding:14px 36px;
-  border-radius:40px;
-  background:#00ffff;
-  color:#000;
-  font-weight:600;
-  text-decoration:none;
+  display:inline-block;margin-top:30px;
+  padding:14px 36px;border-radius:40px;
+  background:#00ffff;color:#000;
+  font-weight:600;text-decoration:none;
   box-shadow:0 0 30px #00ffffaa;
   transition:.3s;
 }
-
 .btn:hover{transform:scale(1.1);}
 
-/* ================= SECTIONS ================= */
-.section{
-  padding:90px 20px;
-  text-align:center;
-}
+/* ===== SECTIONS ===== */
+.section{padding:90px 20px;text-align:center;}
+.section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
 
-.section h2{
-  font-size:2.6rem;
-  margin-bottom:50px;
-  color:#00ffff;
-}
-
-/* ================= PROJECTS ================= */
 .projects{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:35px;
+  display:flex;flex-wrap:wrap;
+  justify-content:center;gap:35px;
 }
-
 .card{
-  width:270px;
-  background:rgba(255,255,255,.06);
+  width:270px;background:rgba(255,255,255,.06);
   backdrop-filter:blur(14px);
-  border-radius:20px;
-  overflow:hidden;
+  border-radius:20px;overflow:hidden;
   box-shadow:0 0 30px #00ffff25;
-  transform:translateY(70px);
-  opacity:0;
+  transform:translateY(70px);opacity:0;
   transition:.6s ease;
 }
+.card.show{transform:translateY(0);opacity:1;}
+.card:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 0 45px #00ffff55;}
+.card img{width:100%;height:170px;object-fit:cover;}
+.card h3{margin-top:15px;color:#00ffff;}
+.card p{padding:10px 18px 22px;font-size:.9rem;color:#cfcfcf;}
 
-.card.show{
-  transform:translateY(0);
-  opacity:1;
-}
-
-.card:hover{
-  transform:translateY(-10px) scale(1.05);
-  box-shadow:0 0 45px #00ffff55;
-}
-
-.card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
-}
-
-.card h3{
-  margin-top:15px;
-  color:#00ffff;
-}
-
-.card p{
-  padding:10px 18px 22px;
-  font-size:.9rem;
-  color:#cfcfcf;
-}
-
-/* ================= CONTACT ================= */
-.contact{
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  flex-wrap:wrap;
-}
-
+/* ===== CONTACT ===== */
+.contact{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;}
 .contact a{
-  padding:15px 38px;
-  border-radius:40px;
-  border:2px solid #00ffff;
-  color:#00ffff;
-  text-decoration:none;
-  font-weight:600;
+  padding:15px 38px;border-radius:40px;
+  border:2px solid #00ffff;color:#00ffff;
+  text-decoration:none;font-weight:600;
   box-shadow:0 0 25px #00ffff55;
   transition:.3s;
 }
+.contact a:hover{background:#00ffff;color:#000;transform:scale(1.1);}
 
-.contact a:hover{
-  background:#00ffff;
-  color:#000;
-  transform:scale(1.1);
-}
-
-/* ================= FOOTER ================= */
 footer{
-  padding:40px 20px;
-  text-align:center;
-  background:#050505;
-  border-top:1px solid #1f1f1f;
-  color:#aaa;
+  padding:40px 20px;text-align:center;
+  background:#050505;border-top:1px solid #1f1f1f;color:#aaa;
 }
 
 @keyframes fadeIn{
@@ -279,7 +131,7 @@ footer{
 
 <body>
 
-<div class="binary" id="binary"></div>
+<canvas id="matrix"></canvas>
 
 <header>
   <nav>
@@ -294,7 +146,6 @@ footer{
 </header>
 
 <section class="hero" id="home">
-  <canvas id="particles"></canvas>
   <div class="hero-content">
     <img src="images/profile.jpg">
     <h1 id="typing"></h1>
@@ -336,14 +187,12 @@ window.addEventListener("scroll",()=>{
     .classList.toggle("glow",window.scrollY>50);
 });
 
-/* SCROLL ANIMATIONS */
+/* CARD SCROLL */
 const cards=document.querySelectorAll(".card");
 window.addEventListener("scroll",()=>{
-  const trigger=window.innerHeight*0.85;
-  cards.forEach(card=>{
-    if(card.getBoundingClientRect().top<trigger){
-      card.classList.add("show");
-    }
+  const trigger=innerHeight*0.85;
+  cards.forEach(c=>{
+    if(c.getBoundingClientRect().top<trigger) c.classList.add("show");
   });
 });
 
@@ -358,45 +207,56 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* PARTICLES */
-const canvas=document.getElementById("particles");
+/* ===== MATRIX ANIMATION ===== */
+const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
 
-let particles=Array.from({length:60},()=>({
-  x:Math.random()*canvas.width,
-  y:Math.random()*canvas.height,
-  r:Math.random()*2+1,
-  dx:Math.random()-.5,
-  dy:Math.random()-.5
-}));
+function resize(){
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+}
+resize();
+addEventListener("resize",resize);
+
+const chars="01";
+const fontSize=16;
+let columns;
+let drops;
+
+function initMatrix(){
+  columns=Math.floor(canvas.width/fontSize);
+  drops=Array(columns).fill(1);
+}
+initMatrix();
+
+let speed=1;
+
+function drawMatrix(){
+  ctx.fillStyle="rgba(0,0,0,0.15)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="#00ffff";
+  ctx.font=fontSize+"px monospace";
+
+  for(let i=0;i<drops.length;i++){
+    const text=chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)
+      drops[i]=0;
+    drops[i]+=speed;
+  }
+}
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle="#00ffff";
-    ctx.fill();
-    p.x+=p.dx; p.y+=p.dy;
-    if(p.x<0||p.x>canvas.width) p.dx*=-1;
-    if(p.y<0||p.y>canvas.height) p.dy*=-1;
-  });
+  drawMatrix();
   requestAnimationFrame(animate);
 }
 animate();
 
-/* BINARY GENERATION + SCROLL */
-const binary=document.getElementById("binary");
-let content="";
-for(let i=0;i<300;i++){
-  content+=(Math.random()>.5?"0101010101010101":"1010101010101010")+"\n";
-}
-binary.textContent=content;
-
-window.addEventListener("scroll",()=>{
-  binary.style.transform=`translateY(${window.scrollY*0.35}px)`;
+/* SCROLL REACTION */
+addEventListener("scroll",()=>{
+  speed=1+(scrollY/800);
 });
 </script>
 
