@@ -1,44 +1,53 @@
 <script>
-/* MENU */
+/* ===== MENU ===== */
 function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("show");
 }
 
-/* HEADER GLOW */
+/* ===== HEADER GLOW ===== */
 window.addEventListener("scroll",()=>{
   document.querySelector("header")
     .classList.toggle("glow",window.scrollY>50);
 });
 
-/* CARD SCROLL */
-const cards=document.querySelectorAll(".card");
-const heroContent=document.querySelector(".hero-content");
-const sections=document.querySelectorAll(".section h2, .section p");
+/* ===== HERO + SECTIONS + CARDS SCROLL ANIMATION ===== */
+const heroContent = document.querySelector(".hero-content");
+const cards = document.querySelectorAll(".card");
+const sections = document.querySelectorAll(".section h2, .section p");
 
 function animateOnScroll(){
-  const trigger=innerHeight*0.85;
+  const trigger = innerHeight * 0.85;
+
+  // Hero content
+  if(heroContent.getBoundingClientRect().top < trigger){
+    heroContent.classList.add("show");
+  } else {
+    heroContent.classList.remove("show");
+  }
+
+  // Section headings and paragraphs
+  sections.forEach(el => {
+    if(el.getBoundingClientRect().top < trigger){
+      el.classList.add("show");
+    } else {
+      el.classList.remove("show");
+    }
+  });
 
   // Cards
   cards.forEach(c=>{
-    if(c.getBoundingClientRect().top<trigger) c.classList.add("show");
-    else c.classList.remove("show");
-  });
-
-  // Hero content
-  if(heroContent.getBoundingClientRect().top<trigger) heroContent.classList.add("show");
-  else heroContent.classList.remove("show");
-
-  // Section headings & paragraphs
-  sections.forEach(s=>{
-    if(s.getBoundingClientRect().top<trigger) s.classList.add("show");
-    else s.classList.remove("show");
+    if(c.getBoundingClientRect().top < trigger){
+      c.classList.add("show");
+    } else {
+      c.classList.remove("show");
+    }
   });
 }
 
-window.addEventListener("scroll",animateOnScroll);
-window.addEventListener("load",animateOnScroll);
+window.addEventListener("scroll", animateOnScroll);
+window.addEventListener("load", animateOnScroll);
 
-/* TYPING */
+/* ===== TYPING EFFECT ===== */
 const text="Jetin Raj";
 let i=0;
 const typing=document.getElementById("typing");
@@ -84,8 +93,7 @@ function drawMatrix(){
     const text=chars[Math.floor(Math.random()*chars.length)];
     ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 
-    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)
-      drops[i]=0;
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i]+=speed;
   }
 }
@@ -96,32 +104,22 @@ function animate(){
 }
 animate();
 
-/* SCROLL REACTION */
+/* ===== MATRIX SPEED SCROLL REACTION ===== */
 addEventListener("scroll",()=>{
   speed=1+(scrollY/800);
 });
 </script>
 
 <style>
-/* Make hero content and sections scroll-animated */
-.hero-content, .section h2, .section p {
+/* ===== SCROLL ANIMATION STYLES ===== */
+.hero-content, .section h2, .section p, .card {
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s ease-out;
 }
-.hero-content.show, .section h2.show, .section p.show {
+
+.hero-content.show, .section h2.show, .section p.show, .card.show {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Ensure cards animate on scroll */
-.card {
-  transform: translateY(70px);
-  opacity: 0;
-  transition: all 0.6s ease;
-}
-.card.show {
-  transform: translateY(0);
-  opacity:1;
 }
 </style>
