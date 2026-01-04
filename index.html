@@ -8,9 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -38,7 +36,6 @@
     nav h2 {
       color: #00ffff;
       font-weight: 600;
-      letter-spacing: 1px;
     }
 
     nav ul {
@@ -73,7 +70,7 @@
 
     /* ===== HERO ===== */
     .hero {
-      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+      background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
       url("images/hero.jpg") center/cover no-repeat;
       padding: 150px 20px 120px;
       text-align: center;
@@ -82,7 +79,6 @@
     .hero h1 {
       font-size: 54px;
       color: #00ffff;
-      margin-bottom: 10px;
     }
 
     .hero p {
@@ -110,14 +106,39 @@
 
     /* ===== SECTIONS ===== */
     .section {
-      padding: 90px 20px;
+      padding: 100px 20px;
       text-align: center;
     }
 
     .section h2 {
       font-size: 38px;
       color: #00ffff;
-      margin-bottom: 45px;
+      margin-bottom: 50px;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-box {
+      max-width: 900px;
+      margin: auto;
+      background: #0f0f0f;
+      padding: 45px;
+      border-radius: 18px;
+      box-shadow: 0 0 40px rgba(0,255,255,0.15);
+      line-height: 1.8;
+      font-size: 16px;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+
+    .about-box.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .about-box span {
+      color: #00ffff;
+      font-weight: 600;
     }
 
     /* ===== PROJECTS ===== */
@@ -147,12 +168,11 @@
     .card img {
       width: 100%;
       border-radius: 12px;
-      margin-bottom: 12px;
     }
 
     .card h3 {
       color: #ffffff;
-      margin-bottom: 6px;
+      margin: 12px 0 6px;
     }
 
     .card p {
@@ -174,6 +194,7 @@
     <h2>JR</h2>
     <ul>
       <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
     </ul>
   </nav>
@@ -182,9 +203,23 @@
   <section class="hero" id="home">
     <h1>Jetin Raj</h1>
     <p>Diploma Student in Artificial Intelligence</p>
-    <p>Designing intelligent systems & futuristic digital experiences</p>
+    <p>Turning ideas into intelligent systems</p>
+    <img src="images/profile.jpg" class="profile-pic">
+  </section>
 
-    <img src="images/profile.jpg" class="profile-pic" alt="Jetin Raj">
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <h2>About Me</h2>
+
+    <div class="about-box">
+      I am <span>Jetin Raj</span>, currently pursuing a <span>Diploma in Artificial Intelligence</span>.
+      I am deeply interested in building intelligent systems, exploring machine learning concepts,
+      and creating futuristic digital experiences using AI.
+      <br><br>
+      My focus areas include <span>AI models</span>, <span>automation</span>, <span>creative AI tools</span>,
+      and using modern technology to solve real-world problems.
+      I constantly experiment, learn, and build projects that push my understanding forward.
+    </div>
   </section>
 
   <!-- PROJECTS -->
@@ -218,9 +253,9 @@
     </div>
   </section>
 
-  <!-- SCROLL ANIMATION -->
+  <!-- SCROLL ANIMATIONS -->
   <script>
-    const cards = document.querySelectorAll('.card');
+    const revealItems = document.querySelectorAll('.card, .about-box');
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -230,7 +265,7 @@
       });
     }, { threshold: 0.2 });
 
-    cards.forEach(card => observer.observe(card));
+    revealItems.forEach(item => observer.observe(item));
   </script>
 
 </body>
