@@ -1,42 +1,82 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Portfolio</title>
-  </head>
-  <body>
-  <!-- Hero Section -->
-  <section id="hero" style="background-color: #0a0a0a; color: #00ffff; padding: 100px 20px; text-align:center;">
-    <h1 style="font-family: 'Poppins', sans-serif; font-size: 4em;">Jetin Raj</h1>
-    <h3 style="font-family: 'Roboto', sans-serif;">AI Innovator | Digital Creator</h3>
-    <p style="font-family: 'Roboto', sans-serif; font-size:1.2em;">
-      Pursuing a Diploma in Artificial Intelligence | Transforming ideas into intelligent experiences
-    </p>
-  </section>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jetin Raj | AI Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: white;
+    }
+    .hero {
+      background: url("images/hero.jpg") center/cover no-repeat;
+      padding: 120px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 48px;
+      color: #00ffff;
+    }
+    .hero p {
+      font-size: 18px;
+    }
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .projects {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .card {
+      background: #111;
+      width: 230px;
+      padding: 15px;
+      border-radius: 12px;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
 
-  <!-- Projects Section -->
-  <section id="projects" style="padding:50px 20px; background-color:#111111; color:#fff;">
-    <h2 style="text-align:center; font-family: 'Poppins', sans-serif;">Projects & AI Concepts</h2>
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:30px;">
-      <div style="background:#222; padding:20px; width:250px; text-align:center; border-radius:10px;">
-        <img src="images/project1.jpg" alt="Neural Vision" style="width:100%; border-radius:10px;">
+  <div class="hero">
+    <h1>Jetin Raj</h1>
+    <p>Pursuing Diploma in Artificial Intelligence</p>
+    <p>Building futuristic AI ideas & digital experiences</p>
+  </div>
+
+  <div class="section">
+    <h2>AI Projects</h2>
+    <div class="projects">
+      <div class="card">
+        <img src="images/project1.jpg">
         <h3>Neural Vision</h3>
-        <p>Interactive AI model for pattern recognition</p>
+        <p>AI-based pattern recognition concept</p>
       </div>
-      <div style="background:#222; padding:20px; width:250px; text-align:center; border-radius:10px;">
-        <img src="images/project2.jpg" alt="AI Companion" style="width:100%; border-radius:10px;">
+      <div class="card">
+        <img src="images/project2.jpg">
         <h3>AI Companion</h3>
-        <p>Concept of an empathetic AI assistant</p>
+        <p>Smart AI assistant concept</p>
       </div>
-      <div style="background:#222; padding:20px; width:250px; text-align:center; border-radius:10px;">
-        <img src="images/project3.jpg" alt="SkyAI" style="width:100%; border-radius:10px;">
+      <div class="card">
+        <img src="images/project3.jpg">
         <h3>SkyAI</h3>
-        <p>AI-powered drone navigation prototype</p>
+        <p>AI-powered drone navigation</p>
       </div>
-      <div style="background:#222; padding:20px; width:250px; text-align:center; border-radius:10px;">
-        <img src="images/project4.jpg" alt="CreativeMind" style="width:100%; border-radius:10px;">
+      <div class="card">
+        <img src="images/project4.jpg">
         <h3>CreativeMind</h3>
-        <p>Transforming ideas into AI-generated art</p>
+        <p>AI-generated creative art system</p>
       </div>
     </div>
-  </section>
+  </div>
+
 </body>
+</html>
