@@ -112,17 +112,14 @@ window.addEventListener("scroll",()=>{document.querySelector("header").classList
 
 /* ===== CARD SCROLL ===== */
 const cards=document.querySelectorAll(".card");
-window.addEventListener("scroll",()=>{
-  const trigger=innerHeight*0.85;
-  cards.forEach(c=>{if(c.getBoundingClientRect().top<trigger)c.classList.add("show");});
-});
+window.addEventListener("scroll",()=>{const trigger=innerHeight*0.85;cards.forEach(c=>{if(c.getBoundingClientRect().top<trigger)c.classList.add("show");});});
 
 /* ===== TYPING ===== */
 const text="Jetin Raj"; let i=0;
 const typing=document.getElementById("typing");
 (function type(){if(i<text.length){typing.innerHTML+=text.charAt(i++);setTimeout(type,120);}})();
 
-/* ===== MATRIX MOVIE STYLE ===== */
+/* ===== MATRIX MOVIE WITH PULSE ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -136,38 +133,44 @@ window.addEventListener("resize",()=>{
 
 const fontSize = 18;
 const chars = "01";
-let columns, drops=[], speeds=[], lengths=[];
+let columns, drops=[], speeds=[], lengths=[], pulseOffsets=[];
 
 function initColumns(){
   columns = Math.floor(width / fontSize);
   drops = Array(columns).fill(0);
-  speeds = Array(columns).fill(0).map(()=>Math.random()*0.3+0.05); // slow random speed
-  lengths = Array(columns).fill(0).map(()=>Math.floor(Math.random()*15)+10); // random stream length
+  speeds = Array(columns).fill(0).map(()=>Math.random()*0.2+0.05);
+  lengths = Array(columns).fill(0).map(()=>Math.floor(Math.random()*15)+10);
+  pulseOffsets = Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
 }
 initColumns();
 
 function drawMatrix(){
-  // semi-transparent background for fade trail
   ctx.fillStyle = "rgba(0,0,0,0.06)";
   ctx.fillRect(0,0,width,height);
-
-  ctx.font = fontSize + "px monospace";
+  ctx.font = fontSize+"px monospace";
 
   for(let i=0;i<columns;i++){
     for(let j=0;j<lengths[i];j++){
       const y = (drops[i]-j)*fontSize;
       if(y<0) continue;
-      // brightness gradient: top is bright, bottom fades
-      const alpha = 1 - j/lengths[i];
-      ctx.fillStyle = `rgba(0,255,255,${alpha})`;
+      // pulse effect for top character
+      if(j===0){
+        const alpha = 0.8 + 0.2*Math.sin(pulseOffsets[i]); // pulse
+        pulseOffsets[i]+=0.05;
+        ctx.fillStyle = `rgba(0,255,255,${alpha})`;
+      } else {
+        const alpha = 0.5*(1 - j/lengths[i]);
+        ctx.fillStyle = `rgba(0,255,255,${alpha})`;
+      }
       const char = chars[Math.floor(Math.random()*chars.length)];
-      ctx.fillText(char, i*fontSize, y);
+      ctx.fillText(char,i*fontSize,y);
     }
-    drops[i] += speeds[i];
-    if(drops[i]*fontSize > height + lengths[i]*fontSize){
-      drops[i] = 0;
-      speeds[i] = Math.random()*0.3+0.05;
-      lengths[i] = Math.floor(Math.random()*15)+10;
+    drops[i]+=speeds[i];
+    if(drops[i]*fontSize>height+lengths[i]*fontSize){
+      drops[i]=0;
+      speeds[i]=Math.random()*0.2+0.05;
+      lengths[i]=Math.floor(Math.random()*15)+10;
+      pulseOffsets[i]=Math.random()*Math.PI*2;
     }
   }
 
