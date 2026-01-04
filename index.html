@@ -209,7 +209,7 @@ window.addEventListener("scroll",()=>{
   document.querySelector("header").classList.toggle("glow",window.scrollY>50);
 });
 
-/* ===== SCROLL-BASED ANIMATION ===== */
+/* ===== SCROLL ANIMATION ===== */
 const heroContent = document.querySelector(".hero-content");
 const cards = document.querySelectorAll(".card");
 const sectionTexts = document.querySelectorAll(".section h2, .section p");
@@ -218,7 +218,7 @@ function animateOnScroll(){
   const trigger = window.innerHeight * 0.9;
 
   if(heroContent.getBoundingClientRect().top < trigger) heroContent.classList.add("show");
-  if(heroContent.getBoundingClientRect().top >= trigger) heroContent.classList.remove("show");
+  else heroContent.classList.remove("show");
 
   sectionTexts.forEach(el => {
     if(el.getBoundingClientRect().top < trigger) el.classList.add("show");
@@ -233,7 +233,7 @@ function animateOnScroll(){
 window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
 
-/* ===== TYPING EFFECT ===== */
+/* ===== TYPING ===== */
 const text="Jetin Raj";
 let i=0;
 const typing=document.getElementById("typing");
@@ -244,7 +244,7 @@ const typing=document.getElementById("typing");
   }
 })();
 
-/* ===== MATRIX AUTO ANIMATION (PROPER FALLING) ===== */
+/* ===== MATRIX RAIN ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -255,27 +255,30 @@ function resize() {
 resize();
 addEventListener("resize", resize);
 
-const chars = "01";
 const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array(columns).fill(0); // start at 0
-const speed = 0.5; // slow
-const fadeAlpha = 0.08; // low brightness
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(0);
+const chars = "01";
+const fadeAlpha = 0.06;
+
+// Random speed per column
+let speeds = Array(columns).fill(0).map(()=>Math.random()*0.7 + 0.3);
 
 function drawMatrix(){
-  // Fade the background slowly
+  // Slightly fade background
   ctx.fillStyle = `rgba(0,0,0,${fadeAlpha})`;
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle="#00ffff";
+  ctx.fillStyle = "#00ffff";
   ctx.font = fontSize + "px monospace";
 
-  for(let i=0;i<drops.length;i++){
+  for(let i=0;i<columns;i++){
     const text = chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
 
-    drops[i] += speed;
-    if(drops[i]*fontSize > canvas.height) drops[i]=0; // reset to top
+    drops[i] += speeds[i];
+
+    if(drops[i]*fontSize > canvas.height) drops[i] = 0;
   }
   requestAnimationFrame(drawMatrix);
 }
