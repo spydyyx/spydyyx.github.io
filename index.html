@@ -65,6 +65,21 @@ nav ul li a:hover{color:#00ffff;}
 }
 .hero-content{position:relative;z-index:1;}
 
+/* Hero scroll animation */
+.hero-content .hero img,
+.hero-content h1,
+.hero-content p {
+  opacity:0;
+  transform:translateY(60px);
+  transition: all 1.2s ease-out;
+}
+.hero-content.show .hero img,
+.hero-content.show h1,
+.hero-content.show p {
+  opacity:1;
+  transform:translateY(0);
+}
+
 .hero img{
   width:150px;height:150px;border-radius:50%;
   border:3px solid #00ffff;
@@ -87,6 +102,20 @@ nav ul li a:hover{color:#00ffff;}
 /* ===== SECTIONS ===== */
 .section{padding:90px 20px;text-align:center;}
 .section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
+.section p{color:#cfcfcf;}
+
+/* Section scroll animation */
+.section h2,
+.section p {
+  opacity:0;
+  transform:translateY(60px);
+  transition: all 1.2s ease-out;
+}
+.section h2.show,
+.section p.show {
+  opacity:1;
+  transform:translateY(0);
+}
 
 .projects{
   display:flex;flex-wrap:wrap;
@@ -125,27 +154,6 @@ footer{
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(40px);}
   to{opacity:1;transform:translateY(0);}
-}
-
-/* ===== SCROLL ANIMATION STYLES ===== */
-.hero-content .hero img,
-.hero-content h1,
-.hero-content p,
-.section h2,
-.section p,
-.card {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease-out;
-}
-.hero-content.show .hero img,
-.hero-content.show h1,
-.hero-content.show p,
-.section h2.show,
-.section p.show,
-.card.show {
-  opacity: 1;
-  transform: translateY(0);
 }
 </style>
 </head>
@@ -203,27 +211,30 @@ function toggleMenu(){
 
 /* ===== HEADER GLOW ===== */
 window.addEventListener("scroll",()=>{
-  document.querySelector("header")
-    .classList.toggle("glow",window.scrollY>50);
+  document.querySelector("header").classList.toggle("glow",window.scrollY>50);
 });
 
-/* ===== HERO + SECTIONS + CARDS SCROLL ANIMATION ===== */
+/* ===== SCROLL ANIMATION ===== */
 const heroContent = document.querySelector(".hero-content");
 const cards = document.querySelectorAll(".card");
 const sectionTexts = document.querySelectorAll(".section h2, .section p");
 
 function animateOnScroll(){
-  const trigger = window.innerHeight * 0.85;
+  const trigger = window.innerHeight * 0.9;
 
   // Hero content
   if(heroContent.getBoundingClientRect().top < trigger){
     heroContent.classList.add("show");
+  } else {
+    heroContent.classList.remove("show");
   }
 
   // Section headings & paragraphs
   sectionTexts.forEach(el => {
     if(el.getBoundingClientRect().top < trigger){
       el.classList.add("show");
+    } else {
+      el.classList.remove("show");
     }
   });
 
@@ -231,10 +242,11 @@ function animateOnScroll(){
   cards.forEach(c=>{
     if(c.getBoundingClientRect().top < trigger){
       c.classList.add("show");
+    } else {
+      c.classList.remove("show");
     }
   });
 }
-
 window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
 
