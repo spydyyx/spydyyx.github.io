@@ -214,16 +214,13 @@ function animateOnScroll(){
   const trigger = window.innerHeight * 0.9;
 
   if(heroContent.getBoundingClientRect().top < trigger) heroContent.classList.add("show");
-  else heroContent.classList.remove("show");
 
   sectionTexts.forEach(el => {
     if(el.getBoundingClientRect().top < trigger) el.classList.add("show");
-    else el.classList.remove("show");
   });
 
   cards.forEach(c=>{
     if(c.getBoundingClientRect().top < trigger) c.classList.add("show");
-    else c.classList.remove("show");
   });
 }
 window.addEventListener("scroll", animateOnScroll);
@@ -236,40 +233,44 @@ const typing=document.getElementById("typing");
 (function type(){ if(i<text.length){ typing.innerHTML+=text.charAt(i++); setTimeout(type,120); } })();
 
 /* ===== MATRIX RAIN ===== */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
 resize();
-addEventListener("resize",resize);
+addEventListener("resize", resize);
 
-const fontSize = 18;
+const fontSize = 20;
 let columns = Math.floor(canvas.width / fontSize);
-let drops = Array(columns).fill(0);
+let drops = [];
 const chars = "01";
-const fadeAlpha = 0.05;
 
-// Random speed per column
-let speeds = Array(columns).fill(0).map(()=>Math.random()*0.3 + 0.2);
+// only 25% columns active at start
+for (let i = 0; i < columns; i++) {
+  drops[i] = Math.random() < 0.25 ? Math.random() * canvas.height : -1000;
+}
+
+// very slow random speeds
+let speeds = Array(columns).fill(0).map(() => Math.random() * 0.2 + 0.05);
 
 function drawMatrix(){
-  ctx.fillStyle = `rgba(0,0,0,${fadeAlpha})`;
+  ctx.fillStyle = "rgba(0,0,0,0.06)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   ctx.fillStyle = "#00ffff";
   ctx.font = fontSize + "px monospace";
 
   for(let i=0;i<columns;i++){
-    // draw only every few frames to reduce spamming
-    if(Math.random() < 0.4){ // only 40% chance to draw
-      const text = chars[Math.floor(Math.random()*chars.length)];
-      ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i] > 0){
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, drops[i]);
     }
+    drops[i] += speeds[i]*fontSize;
 
-    drops[i] += speeds[i];
-
-    if(drops[i]*fontSize > canvas.height) drops[i] = 0;
+    if(drops[i] > canvas.height && Math.random() > 0.98){
+      drops[i] = 0;
+    }
   }
+
   requestAnimationFrame(drawMatrix);
 }
 drawMatrix();
