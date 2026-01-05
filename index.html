@@ -22,7 +22,7 @@ body{background:#000;color:#f2f2f2;overflow-x:hidden;cursor:none;}
   pointer-events:none;z-index:-3;
 }
 
-/* ===== SCROLL PROGRESS INDICATOR (7) ===== */
+/* ===== SCROLL PROGRESS INDICATOR ===== */
 #progressBar{
   position:fixed;top:0;left:0;height:4px;
   background:#00ffff;z-index:1000;
@@ -30,13 +30,14 @@ body{background:#000;color:#f2f2f2;overflow-x:hidden;cursor:none;}
   transition:width 0.1s linear;
 }
 
-/* ===== CURSOR (1) ===== */
+/* ===== CURSOR ===== */
 #cursor{
   position:fixed;top:0;left:0;width:20px;height:20px;
   border:2px solid #00ffff;border-radius:50%;
   transform:translate(-50%,-50%);
   pointer-events:none;
-  transition:0.2s ease-out, width 0.2s ease, height 0.2s ease;
+  transition:0.2s ease-out, width 0.2s ease, height 0.2s ease, opacity 0.5s ease;
+  opacity:0;
   z-index:9999;
 }
 
@@ -85,7 +86,7 @@ nav ul li a:hover{color:#00ffff;}
 }
 .hero-content{position:relative;z-index:1;animation:fadeIn 1.4s ease;}
 
-/* ===== TERMINAL (4) ===== */
+/* ===== TERMINAL ===== */
 #terminal{
   margin-top:20px;color:#00ffff;text-align:left;
   font-family:Consolas,monospace;
@@ -130,8 +131,6 @@ nav ul li a:hover{color:#00ffff;}
 .section.show{opacity:1;transform:translateY(0);}
 .section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
 .projects{display:flex;flex-wrap:wrap;justify-content:center;gap:35px;}
-
-/* ===== PROJECT CARD (3) ===== */
 .card{
   width:270px;background:rgba(255,255,255,.05);
   backdrop-filter:blur(14px);
@@ -152,7 +151,7 @@ nav ul li a:hover{color:#00ffff;}
 .card .view{position:absolute;bottom:15px;left:50%;transform:translateX(-50%) translateY(10px);opacity:0;color:#00ffff;font-weight:600;transition:.4s;}
 .card:hover .view{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ===== SKILLS (5) ===== */
+/* ===== SKILLS ===== */
 #skills{
   position:relative;width:100%;height:250px;margin:50px 0;
 }
@@ -162,10 +161,7 @@ nav ul li a:hover{color:#00ffff;}
   animation:float 3s ease-in-out infinite alternate;
 }
 .line{position:absolute;background:#00ffff;opacity:0.3;transition:opacity .3s;}
-@keyframes float{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-12px);}
-}
+@keyframes float{0%{transform:translateY(0);}100%{transform:translateY(-12px);}}
 
 /* ===== CONTACT ===== */
 .contact{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;opacity:0;transform:translateY(20px);transition:.8s ease;}
@@ -254,13 +250,13 @@ footer{
 <footer>© 2026 Jetin Raj</footer>
 
 <script>
+// MENU
 function toggleMenu(){document.getElementById("navLinks").classList.toggle("show");}
 window.addEventListener("scroll",()=>{document.querySelector("header").classList.toggle("glow",scrollY>50);});
 
-/* ===== CARDS MICRO ANIMATION (2 + 3) ===== */
+// CARDS MICRO ANIMATION
 const sections=document.querySelectorAll(".about, .section, .contact");
 const cards=document.querySelectorAll(".card");
-
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){entry.target.classList.add("show");}
@@ -269,23 +265,18 @@ const observer=new IntersectionObserver(entries=>{
 sections.forEach(s=>observer.observe(s));
 cards.forEach(c=>observer.observe(c));
 
-/* ===== TYPING HERO (UNCHANGED) ===== */
+// HERO TYPING
 const text="Jetin Raj";let i=0;
 const typing=document.getElementById("typing");
 (function type(){if(i<text.length){typing.innerHTML+=text.charAt(i++);setTimeout(type,120);}})();
 
-/* ===== TERMINAL (4) ===== */
+// TERMINAL
 const terminal=document.getElementById("terminal");
-const terminalLines=[
-  "> Initializing AI Systems...",
-  "> Loading Neural Modules...",
-  "> Projects Loaded Successfully."
-];
+const terminalLines=["> Initializing AI Systems...","> Loading Neural Modules...","> Projects Loaded Successfully."];
 let tIndex=0;
 function typeTerminal(){
   if(tIndex<terminalLines.length){
-    let line="";
-    let c=0;
+    let line="",c=0;
     const chars=terminalLines[tIndex];
     const interval=setInterval(()=>{
       line+=chars[c++];
@@ -296,14 +287,13 @@ function typeTerminal(){
 }
 setTimeout(typeTerminal,2000);
 
-/* ===== MATRIX (REDUCED DENSITY) ===== */
+// MATRIX LOW DENSITY
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;canvas.height=innerHeight;
-
 const fontSize=16;
 const chars="01";
-const densityStep=4; // LOWERED density
+const densityStep=8; // VERY LOW
 let columns=Math.floor(canvas.width/fontSize);
 let drops=Array(columns).fill(0);
 let speeds=Array(columns).fill(0).map(()=>Math.random()*0.15+0.02);
@@ -314,14 +304,11 @@ function draw(){
   ctx.fillStyle="rgba(0,0,0,0.12)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.font=fontSize+"px Consolas,monospace";
-
   for(let i=0;i<columns;i++){
     if(i%densityStep!==0)continue;
-
     for(let j=0;j<lengths[i];j++){
       const y=(drops[i]-j)*fontSize;
       if(y<0)continue;
-
       if(j===0){
         const a=0.6+0.2*Math.sin(pulses[i]);
         pulses[i]+=0.07;
@@ -331,7 +318,6 @@ function draw(){
       }
       ctx.fillText(chars[Math.floor(Math.random()*2)],i*fontSize,y);
     }
-
     drops[i]+=speeds[i];
     if(drops[i]*fontSize>canvas.height+lengths[i]*fontSize)drops[i]=0;
   }
@@ -339,15 +325,18 @@ function draw(){
 }
 draw();
 
-/* ===== CURSOR (1) SMOOTHER ===== */
+// CURSOR SMOOTH + FADE
 const cursor=document.getElementById("cursor");
-let mouseX=0,mouseY=0,posX=0,posY=0;
-document.addEventListener("mousemove",e=>{mouseX=e.clientX;mouseY=e.clientY;});
+let mouseX=0,mouseY=0,posX=0,posY=0,lastMove=Date.now();
+document.addEventListener("mousemove",e=>{
+  mouseX=e.clientX;mouseY=e.clientY;lastMove=Date.now();
+  cursor.style.opacity=1;
+});
 function animateCursor(){
-  posX+= (mouseX-posX)*0.15; // slower follow
-  posY+= (mouseY-posY)*0.15;
-  cursor.style.left=posX+"px";
-  cursor.style.top=posY+"px";
+  posX+=(mouseX-posX)*0.15; posY+=(mouseY-posY)*0.15;
+  cursor.style.left=posX+"px"; cursor.style.top=posY+"px";
+  // fade out after 4.5s idle
+  if(Date.now()-lastMove>4500){cursor.style.opacity=0;}
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
@@ -358,13 +347,13 @@ hoverElems.forEach(el=>{
   el.addEventListener("mouseleave",()=>{cursor.style.width="20px";cursor.style.height="20px";})
 });
 
-/* ===== SCROLL PROGRESS (7) ===== */
+// SCROLL PROGRESS
 window.addEventListener("scroll",()=>{
   const scroll=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
   document.getElementById("progressBar").style.width=scroll+"%";
 });
 
-/* ===== SKILLS NODES (5) ANIMATED ===== */
+// SKILLS NODES
 const skills=document.getElementById("skills");
 const skillNodes=["AI","ML","Python","JS","Prompt","Vision"];
 const nodes=[];const lines=[];
