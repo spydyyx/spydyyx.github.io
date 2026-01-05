@@ -36,7 +36,7 @@ body{background:#000;color:#f2f2f2;overflow-x:hidden;cursor:none;}
   border:2px solid #00ffff;border-radius:50%;
   transform:translate(-50%,-50%);
   pointer-events:none;
-  transition:0.15s ease-out, width 0.15s ease, height 0.15s ease;
+  transition:0.2s ease-out, width 0.2s ease, height 0.2s ease;
   z-index:9999;
 }
 
@@ -94,6 +94,10 @@ nav ul li a:hover{color:#00ffff;}
   min-height:90px;
   opacity:0;animation:fadeIn 2s ease forwards;animation-delay:2s;
 }
+#terminal::after{
+  content:"_";animation:blink 1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0;}}
 
 /* ===== HERO IMAGE + TEXT ===== */
 .hero img{
@@ -155,8 +159,13 @@ nav ul li a:hover{color:#00ffff;}
 .node{
   position:absolute;width:12px;height:12px;border-radius:50%;background:#00ffff;
   transition:.3s;
+  animation:float 3s ease-in-out infinite alternate;
 }
-.line{position:absolute;background:#00ffff;}
+.line{position:absolute;background:#00ffff;opacity:0.3;transition:opacity .3s;}
+@keyframes float{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(-12px);}
+}
 
 /* ===== CONTACT ===== */
 .contact{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;opacity:0;transform:translateY(20px);transition:.8s ease;}
@@ -232,9 +241,7 @@ footer{
   </div>
 </section>
 
-<section id="skills">
-  <!-- 5️⃣ Neural nodes will render here -->
-</section>
+<section id="skills"></section>
 
 <section class="section" id="contact">
   <h2>Contact</h2>
@@ -256,9 +263,7 @@ const cards=document.querySelectorAll(".card");
 
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("show");
-    }
+    if(entry.isIntersecting){entry.target.classList.add("show");}
   });
 },{threshold:0.15});
 sections.forEach(s=>observer.observe(s));
@@ -291,15 +296,14 @@ function typeTerminal(){
 }
 setTimeout(typeTerminal,2000);
 
-/* ===== MATRIX (UNCHANGED) ===== */
+/* ===== MATRIX (REDUCED DENSITY) ===== */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;canvas.height=innerHeight;
 
 const fontSize=16;
 const chars="01";
-const densityStep=2;
-
+const densityStep=4; // LOWERED density
 let columns=Math.floor(canvas.width/fontSize);
 let drops=Array(columns).fill(0);
 let speeds=Array(columns).fill(0).map(()=>Math.random()*0.15+0.02);
@@ -335,12 +339,19 @@ function draw(){
 }
 draw();
 
-/* ===== CURSOR (1) ===== */
+/* ===== CURSOR (1) SMOOTHER ===== */
 const cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{
-  cursor.style.top=e.clientY+"px";
-  cursor.style.left=e.clientX+"px";
-});
+let mouseX=0,mouseY=0,posX=0,posY=0;
+document.addEventListener("mousemove",e=>{mouseX=e.clientX;mouseY=e.clientY;});
+function animateCursor(){
+  posX+= (mouseX-posX)*0.15; // slower follow
+  posY+= (mouseY-posY)*0.15;
+  cursor.style.left=posX+"px";
+  cursor.style.top=posY+"px";
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
 const hoverElems=[...document.querySelectorAll("a, button, .card")];
 hoverElems.forEach(el=>{
   el.addEventListener("mouseenter",()=>{cursor.style.width="35px";cursor.style.height="35px";})
@@ -353,7 +364,7 @@ window.addEventListener("scroll",()=>{
   document.getElementById("progressBar").style.width=scroll+"%";
 });
 
-/* ===== SKILLS NODES (5) ===== */
+/* ===== SKILLS NODES (5) ANIMATED ===== */
 const skills=document.getElementById("skills");
 const skillNodes=["AI","ML","Python","JS","Prompt","Vision"];
 const nodes=[];const lines=[];
