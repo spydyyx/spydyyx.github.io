@@ -97,10 +97,10 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
 <section class="section" id="projects">
   <h2>AI Projects</h2>
   <div class="projects">
-    <div class="card"><img src="images/project1.jpg" alt=""><h3>Neural Vision</h3><p>AI-powered visual recognition</p></div>
-    <div class="card"><img src="images/project2.jpg" alt=""><h3>AI Companion</h3><p>Smart assistant concept</p></div>
-    <div class="card"><img src="images/project3.jpg" alt=""><h3>SkyAI</h3><p>Autonomous drone navigation</p></div>
-    <div class="card"><img src="images/project4.jpg" alt=""><h3>CreativeMind</h3><p>Generative AI creativity</p></div>
+    <div class="card"><img src="images/project1.jpg"><h3>Neural Vision</h3><p>AI-powered visual recognition</p></div>
+    <div class="card"><img src="images/project2.jpg"><h3>AI Companion</h3><p>Smart assistant concept</p></div>
+    <div class="card"><img src="images/project3.jpg"><h3>SkyAI</h3><p>Autonomous drone navigation</p></div>
+    <div class="card"><img src="images/project4.jpg"><h3>CreativeMind</h3><p>Generative AI creativity</p></div>
   </div>
 </section>
 
@@ -125,7 +125,7 @@ const text="Jetin Raj"; let i=0;
 const typing=document.getElementById("typing");
 (function type(){if(i<text.length){typing.innerHTML+=text.charAt(i++);setTimeout(type,120);}})();
 
-/* ===== MATRIX (FIXED QUANTITY) ===== */
+/* ===== MATRIX (SCROLL-BLENDED DARKNESS) ===== */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 let width=canvas.width=innerWidth, height=canvas.height=innerHeight;
@@ -134,9 +134,9 @@ window.addEventListener("resize",()=>{width=canvas.width=innerWidth;height=canva
 
 const fontSize=16;
 const chars="01";
-const densityStep = 2; // ↑ higher = fewer pillars (THIS is the only change)
+const densityStep=2;
 
-let columns, drops=[], speeds=[], lengths=[], pulses=[];
+let columns,drops=[],speeds=[],lengths=[],pulses=[];
 
 function initCols(){
   columns=Math.floor(width/fontSize);
@@ -148,34 +148,33 @@ function initCols(){
 initCols();
 
 function drawMatrix(){
-  ctx.fillStyle="rgba(0,0,0,0.12)";
+  const scrollFactor=Math.min(scrollY/800,1);
+  const fade=0.12+scrollFactor*0.08; // darker as you scroll
+
+  ctx.fillStyle=`rgba(0,0,0,${fade})`;
   ctx.fillRect(0,0,width,height);
   ctx.font=fontSize+"px Consolas,monospace";
 
   for(let i=0;i<columns;i++){
-    if(i % densityStep !== 0) continue; // ↓ quantity reduced, fullscreen preserved
+    if(i%densityStep!==0)continue;
 
     for(let j=0;j<lengths[i];j++){
       const y=(drops[i]-j)*fontSize;
-      if(y<0) continue;
+      if(y<0)continue;
 
       if(j===0){
         const alpha=0.6+0.2*Math.sin(pulses[i]);
         pulses[i]+=0.07;
         ctx.fillStyle=`rgba(0,255,255,${alpha})`;
-      } else {
+      }else{
         const alpha=0.3*(1-j/lengths[i]);
         ctx.fillStyle=`rgba(0,255,255,${alpha})`;
       }
 
-      const char=chars[Math.floor(Math.random()*chars.length)];
-      ctx.fillText(char,i*fontSize,y);
+      ctx.fillText(chars[Math.floor(Math.random()*2)],i*fontSize,y);
     }
-
     drops[i]+=speeds[i];
-    if(drops[i]*fontSize>height+lengths[i]*fontSize){
-      drops[i]=0;
-    }
+    if(drops[i]*fontSize>height+lengths[i]*fontSize)drops[i]=0;
   }
   requestAnimationFrame(drawMatrix);
 }
