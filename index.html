@@ -12,12 +12,38 @@ html{scroll-behavior:smooth;}
 body{background:#000;color:#f2f2f2;overflow-x:hidden;}
 
 /* ===== MATRIX CANVAS ===== */
-#matrix{position:fixed;inset:0;z-index:-3;}
+#matrix{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+}
+
+/* ===== GLOBAL DARK OVERLAY (MATCHES HOME) ===== */
+.global-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  pointer-events:none;
+  z-index:-2;
+}
 
 /* ===== HEADER ===== */
-header{position:fixed;top:0;width:100%;background:rgba(5,5,5,.9);backdrop-filter:blur(12px);border-bottom:1px solid #1f1f1f;z-index:999;transition:.3s;}
+header{
+  position:fixed;
+  top:0;width:100%;
+  background:rgba(5,5,5,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #1f1f1f;
+  z-index:999;
+  transition:.3s;
+}
 header.glow{box-shadow:0 0 25px #00ffff33;}
-nav{max-width:1100px;margin:auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;}
+
+nav{
+  max-width:1100px;margin:auto;
+  padding:15px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+}
 nav h2{color:#00ffff;letter-spacing:4px;}
 nav ul{list-style:none;display:flex;gap:25px;}
 nav ul li a{color:#ccc;text-decoration:none;transition:.3s;}
@@ -25,43 +51,92 @@ nav ul li a:hover{color:#00ffff;}
 .menu{display:none;font-size:26px;color:#00ffff;cursor:pointer;}
 
 @media(max-width:768px){
-  nav ul{position:absolute;top:60px;right:20px;background:#050505;flex-direction:column;padding:15px;border-radius:12px;display:none;}
+  nav ul{
+    position:absolute;top:60px;right:20px;
+    background:#050505;flex-direction:column;
+    padding:15px;border-radius:12px;display:none;
+  }
   nav ul.show{display:flex;}
   .menu{display:block;}
 }
 
 /* ===== HERO ===== */
-.hero{min-height:100vh;padding-top:90px;display:flex;justify-content:center;align-items:center;text-align:center;position:relative;}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,.95));z-index:0;}
+.hero{
+  min-height:100vh;padding-top:90px;
+  display:flex;justify-content:center;align-items:center;
+  text-align:center;position:relative;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,.95));
+  z-index:0;
+}
 .hero-content{position:relative;z-index:1;animation:fadeIn 1.4s ease;}
-.hero img{width:150px;height:150px;border-radius:50%;border:3px solid #00ffff;box-shadow:0 0 35px #00ffff55;margin-bottom:25px;}
+.hero img{
+  width:150px;height:150px;border-radius:50%;
+  border:3px solid #00ffff;
+  box-shadow:0 0 35px #00ffff55;
+  margin-bottom:25px;
+}
 .hero h1{font-size:3.4rem;color:#00ffff;text-shadow:0 0 20px #00ffff77;}
 .hero p{margin-top:10px;color:#ccc;}
-.btn{display:inline-block;margin-top:30px;padding:14px 36px;border-radius:40px;background:#00ffff;color:#000;font-weight:600;text-decoration:none;box-shadow:0 0 20px #00ffff55;transition:.3s;}
+
+.btn{
+  display:inline-block;margin-top:30px;
+  padding:14px 36px;border-radius:40px;
+  background:#00ffff;color:#000;
+  font-weight:600;text-decoration:none;
+  box-shadow:0 0 20px #00ffff55;
+  transition:.3s;
+}
 .btn:hover{transform:scale(1.05);}
 
 /* ===== ABOUT ===== */
 .about{padding:90px 20px;text-align:center;}
 .about h2{font-size:2.6rem;margin-bottom:30px;color:#00ffff;}
-.about p{max-width:800px;margin:0 auto;font-size:1.1rem;color:#ccc;line-height:1.8;}
+.about p{
+  max-width:800px;margin:auto;
+  font-size:1.1rem;color:#ccc;
+  line-height:1.9;
+}
 
 /* ===== PROJECTS ===== */
 .section{padding:90px 20px;text-align:center;}
 .section h2{font-size:2.6rem;margin-bottom:50px;color:#00ffff;}
 .projects{display:flex;flex-wrap:wrap;justify-content:center;gap:35px;}
-.card{width:270px;background:rgba(255,255,255,.05);backdrop-filter:blur(14px);border-radius:20px;overflow:hidden;box-shadow:0 0 25px #00ffff11;transform:translateY(70px);opacity:0;transition:.6s ease;}
+
+.card{
+  width:270px;background:rgba(255,255,255,.05);
+  backdrop-filter:blur(14px);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 0 25px #00ffff11;
+  transform:translateY(70px);opacity:0;
+  transition:.6s ease;
+}
 .card.show{transform:translateY(0);opacity:1;}
-.card:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 0 35px #00ffff33;}
+.card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 0 35px #00ffff33;
+}
 .card img{width:100%;height:170px;object-fit:cover;}
 .card h3{margin-top:15px;color:#00ffff;}
 .card p{padding:10px 18px 22px;font-size:.9rem;color:#bbb;}
 
 /* ===== CONTACT ===== */
 .contact{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;}
-.contact a{padding:15px 38px;border-radius:40px;border:2px solid #00ffff;color:#00ffff;text-decoration:none;font-weight:600;box-shadow:0 0 20px #00ffff33;transition:.3s;}
+.contact a{
+  padding:15px 38px;border-radius:40px;
+  border:2px solid #00ffff;color:#00ffff;
+  text-decoration:none;font-weight:600;
+  box-shadow:0 0 20px #00ffff33;
+  transition:.3s;
+}
 .contact a:hover{background:#00ffff;color:#000;transform:scale(1.05);}
 
-footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px solid #1f1f1f;color:#aaa;}
+footer{
+  padding:40px 20px;text-align:center;
+  background:#050505;border-top:1px solid #1f1f1f;color:#aaa;
+}
 
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(40px);}
@@ -73,6 +148,7 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
 <body>
 
 <canvas id="matrix"></canvas>
+<div class="global-overlay"></div>
 
 <header>
   <nav>
@@ -99,7 +175,13 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
 
 <section class="about" id="about">
   <h2>About Me</h2>
-  <p>Hello! I am Jetin Raj, a passionate AI enthusiast pursuing a Diploma in Artificial Intelligence.</p>
+  <p>
+    Hello! I am Jetin Raj, a passionate AI enthusiast pursuing a Diploma in Artificial Intelligence.
+    I enjoy exploring futuristic technology, building creative AI concepts, and designing digital
+    experiences that feel immersive and cinematic.
+    <br><br>
+    My goal is to blend intelligence with aesthetics and bring ideas to life through code.
+  </p>
 </section>
 
 <section class="section" id="projects">
@@ -124,7 +206,7 @@ footer{padding:40px 20px;text-align:center;background:#050505;border-top:1px sol
 
 <script>
 function toggleMenu(){document.getElementById("navLinks").classList.toggle("show");}
-window.addEventListener("scroll",()=>{document.querySelector("header").classList.toggle("glow",window.scrollY>50);});
+window.addEventListener("scroll",()=>{document.querySelector("header").classList.toggle("glow",scrollY>50);});
 
 const cards=document.querySelectorAll(".card");
 window.addEventListener("scroll",()=>{
@@ -134,40 +216,29 @@ window.addEventListener("scroll",()=>{
   });
 });
 
-const text="Jetin Raj"; let i=0;
+const text="Jetin Raj";let i=0;
 const typing=document.getElementById("typing");
 (function type(){if(i<text.length){typing.innerHTML+=text.charAt(i++);setTimeout(type,120);}})();
 
-/* ===== MATRIX (CONSTANT DARK AESTHETIC) ===== */
+/* ===== MATRIX (UNCHANGED) ===== */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
-let width=canvas.width=innerWidth;
-let height=canvas.height=innerHeight;
-
-window.addEventListener("resize",()=>{
-  width=canvas.width=innerWidth;
-  height=canvas.height=innerHeight;
-  initCols();
-});
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
 const fontSize=16;
 const chars="01";
 const densityStep=2;
 
-let columns,drops=[],speeds=[],lengths=[],pulses=[];
+let columns=Math.floor(canvas.width/fontSize);
+let drops=Array(columns).fill(0);
+let speeds=Array(columns).fill(0).map(()=>Math.random()*0.15+0.02);
+let lengths=Array(columns).fill(0).map(()=>Math.floor(Math.random()*12)+6);
+let pulses=Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
 
-function initCols(){
-  columns=Math.floor(width/fontSize);
-  drops=Array(columns).fill(0);
-  speeds=Array(columns).fill(0).map(()=>Math.random()*0.15+0.02);
-  lengths=Array(columns).fill(0).map(()=>Math.floor(Math.random()*12)+6);
-  pulses=Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
-}
-initCols();
-
-function drawMatrix(){
-  ctx.fillStyle="rgba(0,0,0,0.14)"; // CONSTANT DARKNESS
-  ctx.fillRect(0,0,width,height);
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.12)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.font=fontSize+"px Consolas,monospace";
 
   for(let i=0;i<columns;i++){
@@ -178,21 +249,21 @@ function drawMatrix(){
       if(y<0)continue;
 
       if(j===0){
-        const alpha=0.6+0.2*Math.sin(pulses[i]);
+        const a=0.6+0.2*Math.sin(pulses[i]);
         pulses[i]+=0.07;
-        ctx.fillStyle=`rgba(0,255,255,${alpha})`;
+        ctx.fillStyle=`rgba(0,255,255,${a})`;
       }else{
-        const alpha=0.3*(1-j/lengths[i]);
-        ctx.fillStyle=`rgba(0,255,255,${alpha})`;
+        ctx.fillStyle=`rgba(0,255,255,${0.25*(1-j/lengths[i])})`;
       }
       ctx.fillText(chars[Math.floor(Math.random()*2)],i*fontSize,y);
     }
+
     drops[i]+=speeds[i];
-    if(drops[i]*fontSize>height+lengths[i]*fontSize)drops[i]=0;
+    if(drops[i]*fontSize>canvas.height+lengths[i]*fontSize)drops[i]=0;
   }
-  requestAnimationFrame(drawMatrix);
+  requestAnimationFrame(draw);
 }
-drawMatrix();
+draw();
 </script>
 
 </body>
