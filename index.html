@@ -1,16 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JR | AI Portfolio</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JR | Portfolio</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-html{scroll-behavior:smooth;}
-body{background:#000;color:#f2f2f2;overflow-x:hidden;}
-#matrix{position:fixed;inset:0;z-index:-3;}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000;
+  color: #eaeaea;
+  overflow-x: hidden;
+}
+
+/* Matrix Canvas */
+#matrix {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+/* Content */
+.main {
+  min-height: 100vh;
+  padding: 120px 10%;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #00ffff;
+}
+
+h2 {
+  margin-top: 80px;
+  font-size: 2rem;
+  color: #00ffff;
+}
+
+p {
+  margin-top: 20px;
+  max-width: 600px;
+  line-height: 1.7;
+  color: #cfcfcf;
+}
 </style>
 </head>
 
@@ -18,78 +63,96 @@ body{background:#000;color:#f2f2f2;overflow-x:hidden;}
 
 <canvas id="matrix"></canvas>
 
+<div class="main">
+  <h1>JR</h1>
+  <p>
+    I’m exploring AI, web, and creative tech.  
+    This portfolio is a growing space where experiments meet aesthetics.
+  </p>
+
+  <h2>About Me</h2>
+  <p>
+    I like blending technology with minimal design.  
+    I enjoy experimenting with AI tools, web visuals, and interactive experiences.
+    This site reflects that journey — raw, evolving, and intentional.
+  </p>
+</div>
+
 <script>
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-let width = canvas.width = innerWidth;
-let height = canvas.height = innerHeight;
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
 
-window.addEventListener("resize", ()=>{
-  width = canvas.width = innerWidth;
-  height = canvas.height = innerHeight;
+window.addEventListener("resize", () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
   initMatrix();
 });
 
 const fontSize = 16;
 const chars = "01";
 
-let columns, drops=[], speeds=[], lengths=[], pulses=[];
+let columns;
+let drops = [];
+let speeds = [];
+let lengths = [];
+let pulses = [];
 
-function initMatrix(){
-  // 🔽 quantity reduced here
-  columns = Math.floor(width / (fontSize * 1.4));
+function initMatrix() {
+  columns = Math.floor(width / (fontSize * 1.4)); // reduced quantity
 
   drops = Array(columns).fill(0);
-  speeds = Array(columns).fill(0).map(()=>Math.random()*0.15+0.03);
-  lengths = Array(columns).fill(0).map(()=>Math.floor(Math.random()*10)+6);
-  pulses = Array(columns).fill(0).map(()=>Math.random()*Math.PI*2);
+  speeds = Array(columns).fill(0).map(() => Math.random() * 0.15 + 0.03);
+  lengths = Array(columns).fill(0).map(() => Math.floor(Math.random() * 10) + 6);
+  pulses = Array(columns).fill(0).map(() => Math.random() * Math.PI * 2);
 }
+
 initMatrix();
 
-function draw(){
-  // darker blend
-  ctx.fillStyle = "rgba(0,0,0,0.12)";
-  ctx.fillRect(0,0,width,height);
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+  ctx.fillRect(0, 0, width, height);
 
   ctx.font = fontSize + "px Consolas, monospace";
 
-  for(let i=0;i<columns;i++){
-    for(let j=0;j<lengths[i];j++){
-      const y = (drops[i]-j)*fontSize;
-      if(y<0) continue;
+  for (let i = 0; i < columns; i++) {
+    for (let j = 0; j < lengths[i]; j++) {
+      const y = (drops[i] - j) * fontSize;
+      if (y < 0) continue;
 
-      if(j===0){
-        // 🌟 CINEMATIC GLOW HEAD
-        const alpha = 0.6 + 0.2*Math.sin(pulses[i]);
-        pulses[i]+=0.06;
+      if (j === 0) {
+        // cinematic glow head
+        const alpha = 0.6 + 0.2 * Math.sin(pulses[i]);
+        pulses[i] += 0.06;
 
         ctx.shadowColor = "rgba(0,255,255,0.6)";
         ctx.shadowBlur = 12;
         ctx.fillStyle = `rgba(0,255,255,${alpha})`;
       } else {
-        // clean trail (no blur)
         ctx.shadowBlur = 0;
-        const alpha = 0.28*(1-j/lengths[i]);
+        const alpha = 0.25 * (1 - j / lengths[i]);
         ctx.fillStyle = `rgba(0,255,255,${alpha})`;
       }
 
-      const char = chars[Math.floor(Math.random()*chars.length)];
-      ctx.fillText(char, i*fontSize*1.4, y);
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(char, i * fontSize * 1.4, y);
     }
 
     drops[i] += speeds[i];
 
-    if(drops[i]*fontSize > height + lengths[i]*fontSize){
+    if (drops[i] * fontSize > height + lengths[i] * fontSize) {
       drops[i] = 0;
-      speeds[i] = Math.random()*0.15+0.03;
-      lengths[i] = Math.floor(Math.random()*10)+6;
-      pulses[i] = Math.random()*Math.PI*2;
+      speeds[i] = Math.random() * 0.15 + 0.03;
+      lengths[i] = Math.floor(Math.random() * 10) + 6;
+      pulses[i] = Math.random() * Math.PI * 2;
     }
   }
 
   requestAnimationFrame(draw);
 }
+
 draw();
 </script>
 
